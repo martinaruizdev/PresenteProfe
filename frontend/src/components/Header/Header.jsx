@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import Button from '../Button/Button'
-import fondo from '../../assets/fondo.png';
+import fondoImage from '../../assets/fondo.png';
 
 const Header = () => {
   return (
     <>
-    <div id='hero-header' style={{ backgroundImage: `url(${fondo})` }} className='bg-[url("/fondo.png")] min-h-screen flex flex-col items-center bg-cover bg-center'>
+    <div id='hero-header' className='min-h-screen flex flex-col items-center bg-cover bg-center' style={{ backgroundImage: `url(${fondoImage})` }}>
     <Navbar/>
     <div className='flex-1 flex flex-col justify-center items-start h-screen'>
     <h1 className='text-4xl font-bold text-dark'>Tomá <span className='text-blue-950'>lista en segundos</span> , sin papel ni estrés.</h1>
