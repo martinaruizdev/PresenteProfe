@@ -1,34 +1,32 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo-img.png";
+
 const Navbar = () => {
   return (
-    <nav className="flex justify-center py-4">
-      <ul className="flex space-x-32 bg-white/80 backdrop-blur-md rounded-2xl px-10 py-3 shadow-lg">
-        <li>
-          <a
-            href="#home"
-            className="text-gray-700 hover:text-teal-500 font-medium"
-          >
-            <img src={logo} alt="Logo" />
-          </a>
-        </li>
-        <li>
-          <a
-            href="#about"
-            className="text-gray-700 hover:text-teal-500 font-medium"
+  <nav className="flex justify-center py-4">
+      <div className="flex justify-between items-center bg-white/80 backdrop-blur-md rounded-2xl px-8 py-2 shadow-lg w-[750px]">
+        {/* Logo */}
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Logo" className="h-6 w-auto" />
+        </Link>
+
+        {/* Botones de navegación */}
+        <div className="flex space-x-3">
+          <Link
+            to="/login"
+            className="border-2 border-teal-500 text-teal-500 hover:bg-teal-50 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors"
           >
             Iniciar Sesión
-          </a>
-        </li>
-        <li>
-          <a
-            href="#services"
-            className="text-gray-700 hover:text-teal-500 font-medium"
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-teal-500 hover:bg-teal-600 text-dark font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors"
           >
             Registrarse
-          </a>
-        </li>
-      </ul>
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 };
