@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from core.models import Clase, Asistencia
 from core.serializers import ClaseSerializer, AsistenciaSerializer
-from core.permissions import IsDocente, IsAlumno
+from api.permissions import IsDocente, IsAlumno
 from core.qr import make_qr_token, verify_qr_token, QR_TTL_SECONDS
 
 from openpyxl import Workbook
