@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from core.models import Encuesta, Opcion, Voto
 from core.serializers import EncuestaSerializer
-from core.permissions import IsDocente, IsAlumno
+from api.permissions import IsDocente, IsAlumno
 
 class EncuestaViewSet(viewsets.ModelViewSet):
     serializer_class = EncuestaSerializer
