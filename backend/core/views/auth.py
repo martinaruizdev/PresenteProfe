@@ -29,33 +29,46 @@ def google_login(request):
             return Response({'detail': 'Email no verificado por Google.'}, status=401)
 
         email = info['email'].lower()
-        domain = email.split('@')[-1]
-
-        if domain not in settings.ALLOWED_EMAIL_DOMAINS:
-            return Response(
-                {'detail': f'Dominio no permitido: {domain}. Solo @tufacu.edu.ar.'},
-                status=403
-            )
+        
+        # Validación de dominio comentada para permitir cualquier email
+        # domain = email.split('@')[-1]
+        # if settings.ALLOWED_EMAIL_DOMAINS and domain not in settings.ALLOWED_EMAIL_DOMAINS:
+        #     return Response(
+        #         {'detail': f'Dominio no permitido: {domain}.'},
+        #         status=403
+        #     )
 
         first_name = info.get('given_name') or ''
         last_name = info.get('family_name') or ''
 
-        user, _ = User.objects.get_or_create(
-            username=email,
+        user, created = User.objects.get_or_create(
+            email=email,
             defaults={
-                'email': email,
+                'username': email,
                 'first_name': first_name,
-                'last_name': last_name
+                'last_name': last_name,
             }
         )
 
-        Perfil.objects.get_or_create(user=user, defaults={'rol': 'ALUMNO'})
+        # Crear perfil si no existe
+        perfil, _ = Perfil.objects.get_or_create(
+            user=user,
+            defaults={'rol': 'ALUMNO'}
+        )
+
+        # Generar tokens JWT
         refresh = RefreshToken.for_user(user)
 
         return Response({
             'access': str(refresh.access_token),
-            'refresh': str(refresh)
+            'refresh': str(refresh),
+            'user': {
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'rol': perfil.rol,
+            }
         })
 
-    except ValueError:
-        return Response({'detail': 'ID Token inválido.'}, status=401)
+    except ValueError as e:
+        return Response({'detail': f'Token inválido: {str(e)}'}, status=401)
