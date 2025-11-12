@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../Navbar/Navbar";
 import Button from "../Button/Button";
 import fondoImage from "../../assets/fondo.png";
 import { HiArrowNarrowRight } from "react-icons/hi";
@@ -13,7 +12,6 @@ const Header = () => {
         className="min-h-screen w-full flex flex-col bg-cover bg-center "
         style={{ backgroundImage: `url(${fondoImage})` }}
       >
-        <Navbar />
         <div className="flex flex-row items-center justify-center w-full h-full">
           {/* Contenedor del texto */}
           <div className="flex flex-col justify-center items-start h-full w-1/2 space-y-8 ml-24">
