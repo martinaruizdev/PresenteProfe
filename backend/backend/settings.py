@@ -64,10 +64,10 @@ SIMPLE_JWT = {
 }
 
 
-FRONTEND_BASE_URL = os.getenv('FRONTEND_BASE_URL', 'http://localhost:5173')
+FRONTEND_BASE_URL = os.getenv('FRONTEND_BASE_URL', 'http://localhost:3000')
 
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID',
-'160512822729-s37ljht1gb6f7e7femq47pr3q29pklk3.apps.googleusercontent.com')
+'523426052811-q5r8g5rbhjnmc2ca1v61aik2iiu01q0h.apps.googleusercontent.com')
 
 ALLOWED_EMAIL_DOMAINS = []
 
@@ -143,3 +143,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
