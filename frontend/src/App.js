@@ -28,7 +28,10 @@ function AppRoutes({ user, setUser }) {
         <Route path="/encuestas" element={<EncuestasPage />} />
         <Route
           path="/login"
-          element={<LoginPage onLogin={(u) => setUser(u)} />}
+          element={<LoginPage onLogin={(u) => {
+            setUser(u);
+            window.location.href = "/clases";
+          }} />}
         />
       </Routes>
     </>

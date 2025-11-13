@@ -14,6 +14,8 @@ export default function EncuestasList() {
   };
 
   return (
+    <>
+    <h1 className="text-3xl text-center mt-8">Encuestas</h1>
     <div className="space-y-4 p-4">
       {encuestas.map((e) => (
         <div key={e.id} className="bg-white p-4 rounded-xl shadow">
@@ -32,5 +34,6 @@ export default function EncuestasList() {
         </div>
       ))}
     </div>
+    </>
   );
 }

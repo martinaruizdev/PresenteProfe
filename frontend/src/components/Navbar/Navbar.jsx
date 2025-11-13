@@ -15,13 +15,13 @@ export default function Navbar({ user, onLogout }) {
         <div className="flex space-x-3">
           {user && user.rol === "DOCENTE" && (
             <>
-              <Link to="/materias" className="...">Materias</Link>
-              <Link to="/clases" className="...">Clases</Link>
-              <Link to="/encuestas" className="...">Encuestas</Link>
+              <Link to="/materias" className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Materias</Link>
+              <Link to="/clases"  className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Clases</Link>
+              <Link to="/encuestas"  className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Encuestas</Link>
             </>
           )}
           {user && user.rol === "ALUMNO" && (
-            <Link to="/clases" className="...">Clases</Link>
+            <Link to="/clases" className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Clases</Link>
           )}
 
           {!user ? (
@@ -34,7 +34,7 @@ export default function Navbar({ user, onLogout }) {
           ) : (
             <button
               onClick={onLogout}
-              className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors"
+               className="border-2 border-red-500 text-red-500 hover:bg-red-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors"
             >
               Cerrar Sesión
             </button>
