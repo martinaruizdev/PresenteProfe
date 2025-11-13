@@ -20,3 +20,4 @@ export const votarEncuesta = (encuestaId, opcion) => api.post("votar", { encuest
 
 export const googleLogin = async (credential) =>
   api.post("auth/google", { credential });
+

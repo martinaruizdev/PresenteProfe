@@ -14,6 +14,8 @@ export default function ClasesList() {
   };
 
   return (
+    <>
+    <h1 className="text-3xl text-center mt-8">sapeee</h1>
     <div className="grid md:grid-cols-2 gap-4 p-4">
       {clases.map((c) => (
         <div key={c.id} className="bg-white p-4 rounded-xl shadow flex justify-between items-center">
@@ -30,5 +32,6 @@ export default function ClasesList() {
         </div>
       ))}
     </div>
+    </>
   );
 }

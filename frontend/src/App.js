@@ -1,5 +1,5 @@
 // App.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
@@ -8,20 +8,44 @@ import ClasesPage from "./pages/ClasesPage";
 import EncuestasPage from "./pages/EncuestasPage";
 import LoginPage from "./pages/LoginPage";
 
-
-function App() {
+function AppRoutes({ user, setUser }) {
   return (
-    <Router>
-      <Navbar />
+    <>
+      <Navbar
+        user={user}
+        onLogout={() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("refresh");
+          localStorage.removeItem("user");
+          setUser(null);
+          window.location.href = "/"; 
+        }}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/materias" element={<MateriasPage />} />
         <Route path="/clases" element={<ClasesPage />} />
         <Route path="/encuestas" element={<EncuestasPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={<LoginPage onLogin={(u) => setUser(u)} />}
+        />
       </Routes>
-    </Router>
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
+  return (
+    <Router>
+      <AppRoutes user={user} setUser={setUser} />
+    </Router>
+  );
+}
