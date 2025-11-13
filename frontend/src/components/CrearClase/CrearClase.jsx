@@ -24,12 +24,12 @@ export default function CrearClase({ onClaseCreada }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await crearClase({ nombre, fecha, materia });
+      await crearClase({ fecha, materia_id: materia });
       alert("Clase creada ✅");
       setNombre("");
       setFecha("");
       setMateria("");
-      onClaseCreada(); // recarga la lista
+      onClaseCreada(); 
     } catch (err) {
       console.error(err);
       alert("Error al crear clase ❌");

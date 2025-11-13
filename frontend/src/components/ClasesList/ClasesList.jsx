@@ -37,7 +37,7 @@ export default function ClasesList() {
   };
 
   const handleReload = () => {
-    setReloadFlag((prev) => !prev); // 👈 toggle para recargar
+    setReloadFlag((prev) => !prev); 
   };
 
   
@@ -71,7 +71,7 @@ export default function ClasesList() {
               className="bg-white p-4 rounded-xl shadow flex justify-between items-center"
             >
               <div>
-                <h3 className="font-semibold text-lg">{c.nombre}</h3>
+                {/* <h3 className="font-semibold text-lg">{c.nombre}</h3> */}
                 <p>{c.fecha}</p>
               </div>
               <button

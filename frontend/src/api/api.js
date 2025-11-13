@@ -21,7 +21,7 @@ export const checkinAsistencia = (claseId, token) => api.post("asistencias/check
 export const generarQR = (claseId) => api.post(`clases/${claseId}/qr/`);
 export const exportarAsistencias = (claseId, formato = "csv") => window.location.href = `${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/asistencias/export/?format=${formato}`;
 export const crearClase = (data) => api.post("clases/", data);
-export const crearMateria = (nombre) => api.post("materias/", { nombre });
+export const crearMateria = (data) => api.post("materias/", data);
 
 export const googleLogin = async (credential) =>
   api.post("auth/google", { credential });

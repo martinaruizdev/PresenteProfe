@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMaterias } from "../../api/api";
+import CrearMateria from "../CrearMateria/CrearMateria";
 
 export default function MateriasList() {
   const [materias, setMaterias] = useState([]);
@@ -32,9 +33,13 @@ export default function MateriasList() {
 
   if (!materias.length && !loading) {
     return (
-      <p className="text-center mt-8 text-gray-500">
-        No hay materias disponibles 📚
-      </p>
+      <>
+        <h1 className="text-3xl text-center mt-8">Materias</h1>
+        <CrearMateria onCreated={handleReload} />
+        <p className="text-center mt-8 text-gray-500">
+          No hay materias disponibles 📚
+        </p>
+      </>
     );
   }
 
@@ -44,6 +49,8 @@ export default function MateriasList() {
       <h2 className="text-xl text-center mt-2">
         Listado de materias disponibles
       </h2>
+
+      <CrearMateria onCreated={handleReload} />
 
       <div className="text-center my-4">
         <button
