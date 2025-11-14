@@ -11,7 +11,7 @@ export default function Checkin() {
   useEffect(() => {
     const marcar = async () => {
       try {
-        await marcarAsistencia(clase_id, token); // Llamada al backend
+        await marcarAsistencia(clase_id, token); 
         setStatus("✅ Asistencia registrada correctamente.");
       } catch (err) {
         console.error(err);
