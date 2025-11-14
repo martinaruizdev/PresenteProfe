@@ -77,10 +77,6 @@ export default function ClasesList() {
 
   return (
     <>
-      <h1 className="text-3xl text-center mt-8">Clases</h1>
-      <h2 className="text-xl text-center mt-2 mb-4">
-        Elegí la materia para darle tu Presente al Profe
-      </h2>
       <button
         onClick={handleReload}
         className="mb-6 px-4 py-2 bg-blue-500 text-white rounded"

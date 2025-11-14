@@ -53,7 +53,7 @@ def google_login(request):
         # Crear perfil si no existe
         perfil, _ = Perfil.objects.get_or_create(
             user=user,
-            defaults={'rol': 'DOCENTE'}
+            defaults={'rol': 'ALUMNO'}
         )
 
         # Generar tokens JWT
