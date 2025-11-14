@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getMaterias } from "../../api/api";
 import CrearMateria from "../CrearMateria/CrearMateria";
+import libroImg from "../../assets/libro.png";
 
 export default function MateriasList() {
   const [materias, setMaterias] = useState([]);
@@ -46,7 +47,6 @@ export default function MateriasList() {
   return (
   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6">
       <div className="max-w-6xl mx-auto my-6">
-        {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
             Mis Materias
@@ -56,10 +56,8 @@ export default function MateriasList() {
           </p>
         </div>
 
-        {/* Crear Materia */}
         <CrearMateria onCreated={handleReload} />
 
-        {/* Loading State */}
         {loading && materias.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20">
             <svg className="animate-spin h-12 w-12 text-teal-400 mb-4" viewBox="0 0 24 24">
@@ -82,7 +80,6 @@ export default function MateriasList() {
           </div>
         )}
 
-        {/* Empty State */}
         {!materias.length && !loading && (
           <div className="text-center py-20">
             <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-12 max-w-md mx-auto shadow-lg">
@@ -97,7 +94,6 @@ export default function MateriasList() {
           </div>
         )}
 
-        {/* Materias Grid */}
         {materias.length > 0 && (
           <>
             <div className="flex justify-between items-center mb-6">
@@ -136,7 +132,7 @@ export default function MateriasList() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="w-12 h-12 bg-teal-400 rounded-2xl flex items-center justify-center ">
-                          <span className="text-2xl">📖</span>
+                          <img src={libroImg} alt="Icono libro" className="w-7 h-7 object-contain"/>
                         </div>
                         <div>
                           <h3 className="font-bold text-xl text-slate-800">
