@@ -17,7 +17,6 @@ export default function Navbar({ user, onLogout }) {
             <>
               <Link to="/materias" className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Materias</Link>
               <Link to="/clases"  className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Clases</Link>
-              <Link to="/encuestas"  className="border-2 border-teal-500 text-teal-500 hover:bg-teal-100 font-medium py-2 px-5 rounded-2xl flex items-center justify-center text-sm transition-colors">Encuestas</Link>
             </>
           )}
           {user && user.rol === "ALUMNO" && (

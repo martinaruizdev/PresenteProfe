@@ -1,12 +1,12 @@
-// App.jsx
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import MateriasPage from "./pages/MateriasPage";
 import ClasesPage from "./pages/ClasesPage";
-import EncuestasPage from "./pages/EncuestasPage";
+//import EncuestasPage from "./pages/EncuestasPage";
 import LoginPage from "./pages/LoginPage";
+import ClaseDetalle from "./pages/ClaseDetallePage";
 
 function AppRoutes({ user, setUser }) {
   return (
@@ -25,7 +25,7 @@ function AppRoutes({ user, setUser }) {
         <Route path="/" element={<Home />} />
         <Route path="/materias" element={<MateriasPage />} />
         <Route path="/clases" element={<ClasesPage />} />
-        <Route path="/encuestas" element={<EncuestasPage />} />
+        <Route path="/clases/:claseId" element={<ClaseDetalle />} />
         <Route
           path="/login"
           element={<LoginPage onLogin={(u) => {
