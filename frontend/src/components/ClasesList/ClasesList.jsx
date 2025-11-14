@@ -25,24 +25,6 @@ export default function ClasesList() {
     fetchClases();
   }, [reloadFlag]);
 
-  /*   const handleOpenQR = async (claseId) => {
-      try {
-        const res = await fetch(`${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/qr/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (!res.ok) throw new Error("Error al generar QR");
-        const data = await res.json();
-        setQrData({ claseId, url: data.checkin_url });
-      } catch (err) {
-        console.error(err);
-        alert("No se pudo generar el QR ❌");
-      }
-    }; */
-
   const handleOpenQR = async (claseId) => {
     setQrLoadingId(claseId);
     try {
@@ -110,7 +92,6 @@ export default function ClasesList() {
         </div>
       ))}
 
-      {/* Modal QR */}
       {qrData && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow relative">

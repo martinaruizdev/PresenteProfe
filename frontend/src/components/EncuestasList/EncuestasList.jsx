@@ -43,38 +43,38 @@ export default function EncuestasList({ claseId }) {
     }
   };
 
-useEffect(() => {
-  const fetchEncuestas = async () => {
-    try {
-      const res = await getEncuestas();
-      setEncuestas(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  useEffect(() => {
+    const fetchEncuestas = async () => {
+      try {
+        const res = await getEncuestas();
+        setEncuestas(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  const fetchAsistencias = async () => {
-    try {
-      if (!claseId) return;
-      const res = await fetch(
-        `${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/estadisticas/`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const data = await res.json();
-      setPresentes(data.presentes);
-      setAusentes(data.ausentes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    const fetchAsistencias = async () => {
+      try {
+        if (!claseId) return;
+        const res = await fetch(
+          `${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/estadisticas/`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const data = await res.json();
+        setPresentes(data.presentes);
+        setAusentes(data.ausentes);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  fetchEncuestas();
-  fetchAsistencias();
-}, [claseId]);
+    fetchEncuestas();
+    fetchAsistencias();
+  }, [claseId]);
 
 
   const handleVoto = async (id, opcion) => {
@@ -93,12 +93,13 @@ useEffect(() => {
     labels: ["Presentes", "Ausentes"],
     datasets: [
       {
-        data: [presentes, ausentes],
+        data: [presentes ?? 0, ausentes ?? 0],
         backgroundColor: ["#22c55e", "#ef4444"],
         borderWidth: 1,
       },
     ],
   };
+
 
   return (
     <>
@@ -130,9 +131,9 @@ useEffect(() => {
             </div>
             {e.resultados && (
               <div className="mt-2">
-                {e.opciones.map((op) => (
+                {Object.entries(e.resultados).map(([op, votos]) => (
                   <div key={op}>
-                    {op}: {e.resultados[op] || 0} votos
+                    {op}: {votos} votos
                   </div>
                 ))}
               </div>

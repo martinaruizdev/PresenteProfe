@@ -97,3 +97,17 @@ class ClaseViewSet(viewsets.ModelViewSet):
             ])
 
         return resp
+
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def estadisticas(self, request, pk=None):
+        clase = self.get_object()
+        total_alumnos = getattr(clase.materia, 'cantidad_alumnos', 0)
+        presentes = Asistencia.objects.filter(clase=clase).count()
+        ausentes = max(total_alumnos - presentes, 0)
+        return Response({
+            'clase_id': clase.id,
+            'materia': clase.materia.nombre,
+            'presentes': presentes,
+            'ausentes': ausentes,
+            'total_alumnos': total_alumnos
+        })

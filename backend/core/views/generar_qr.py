@@ -6,11 +6,11 @@ from rest_framework.response import Response
 
 from core.models import Clase
 from core.qr import make_qr_token
-from api.permissions import IsDocente  # o algún permiso que uses para el profe
+from api.permissions import IsDocente  
 from core.qr import QR_TTL_SECONDS
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, IsDocente])  # Solo docentes pueden generar QR
+@permission_classes([IsAuthenticated, IsDocente]) 
 def generar_qr(request, clase_id):
     try:
         clase = Clase.objects.get(pk=clase_id)

@@ -6,6 +6,7 @@ class Materia(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     docente = models.ForeignKey(settings.AUTH_USER_MODEL,
 on_delete=models.CASCADE, related_name='materias')
+    cantidad_alumnos = models.PositiveIntegerField(default=30)
     
     def __str__(self):
         return f"{self.nombre}"
