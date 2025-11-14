@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { crearClase, getMaterias } from "../../api/api";
 
 export default function CrearClase({ onClaseCreada }) {
-  const [nombre, setNombre] = useState("");
   const [fecha, setFecha] = useState("");
   const [materia, setMateria] = useState("");
   const [materias, setMaterias] = useState([]);
@@ -26,7 +25,6 @@ export default function CrearClase({ onClaseCreada }) {
     try {
       await crearClase({ fecha, materia_id: materia });
       alert("Clase creada ✅");
-      setNombre("");
       setFecha("");
       setMateria("");
       onClaseCreada(); 
@@ -54,16 +52,6 @@ export default function CrearClase({ onClaseCreada }) {
           <option key={m.id} value={m.id}>{m.nombre}</option>
         ))}
       </select>
-
-      <label className="block mb-2">Nombre de la clase</label>
-      <input
-        type="text"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-        required
-        className="border p-2 w-full mb-4 rounded"
-        placeholder="Ej: Clase 1 - Introducción"
-      />
 
       <label className="block mb-2">Fecha y hora</label>
       <input

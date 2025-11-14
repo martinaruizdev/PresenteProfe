@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { getClases, marcarAsistencia } from "../../api/api";
+import { getClases } from "../../api/api";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function ClasesList() {
   const [clases, setClases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [reloadFlag, setReloadFlag] = useState(false);
-  const [markingId, setMarkingId] = useState(null);
+  const [qrData, setQrData] = useState(null); // { claseId, url }
+  const [qrLoadingId, setQrLoadingId] = useState(null);
 
   useEffect(() => {
     const fetchClases = async () => {
@@ -16,77 +18,117 @@ export default function ClasesList() {
       } catch (err) {
         console.error(err);
         alert("Error al cargar las clases 😞");
-      } finally{
+      } finally {
         setLoading(false);
       }
     };
     fetchClases();
   }, [reloadFlag]);
 
-  const handleAsistencia = async (id) => {
-    setMarkingId(id); 
+  /*   const handleOpenQR = async (claseId) => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/qr/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        if (!res.ok) throw new Error("Error al generar QR");
+        const data = await res.json();
+        setQrData({ claseId, url: data.checkin_url });
+      } catch (err) {
+        console.error(err);
+        alert("No se pudo generar el QR ❌");
+      }
+    }; */
+
+  const handleOpenQR = async (claseId) => {
+    setQrLoadingId(claseId);
     try {
-      await marcarAsistencia(id);
-      alert("Asistencia marcada ✅");
-      setReloadFlag((prev) => !prev);
-    } catch {
-      alert("Error al marcar asistencia ❌");
+      const res = await fetch(`${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/qr/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!res.ok) throw new Error("Error al generar QR");
+      const data = await res.json();
+      setQrData({ claseId, url: data.checkin_url });
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo generar el QR ❌");
     } finally {
-      setMarkingId(false);
+      setQrLoadingId(null);
     }
   };
 
-  const handleReload = () => {
-    setReloadFlag((prev) => !prev); 
-  };
+  const handleCloseQR = () => setQrData(null);
 
-  
-  if (loading && clases.length === 0) {
-    return <p className="text-center mt-8">Cargando clases...</p>;
-  }
-  if (!clases.length && !loading) {
-    return (
-      <p className="text-center mt-8 text-gray-500">
-        No hay clases disponibles 📚
-      </p>
-    );
-  }
+  const handleReload = () => setReloadFlag((prev) => !prev);
+
+  const clasesPorMateria = clases.reduce((acc, clase) => {
+    const nombreMateria = clase.materia.nombre;
+    if (!acc[nombreMateria]) acc[nombreMateria] = [];
+    acc[nombreMateria].push(clase);
+    return acc;
+  }, {});
 
   return (
     <>
       <h1 className="text-3xl text-center mt-8">Clases</h1>
-      <h2 className="text-xl text-center mt-2">
+      <h2 className="text-xl text-center mt-2 mb-4">
         Elegí la materia para darle tu Presente al Profe
       </h2>
-      <button onClick={handleReload}>Recargar clases</button>
-      <div className="grid md:grid-cols-2 gap-4 p-4">
-        {clases.length === 0 ? (
-          <p className="text-center text-gray-500 col-span-2">
-            No hay clases disponibles 📚
-          </p>
-        ) : (
-          clases.map((c) => (
-            <div
-              key={c.id}
-              className="bg-white p-4 rounded-xl shadow flex justify-between items-center"
-            >
-              <div>
-                {/* <h3 className="font-semibold text-lg">{c.nombre}</h3> */}
-                <p>{c.fecha}</p>
-              </div>
-              <button
-                onClick={() => handleAsistencia(c.id)}
-                disabled={loading}
-                className={`px-3 py-1 rounded text-white ${
-                  loading ? "bg-gray-400" : "bg-green-500 hover:bg-green-600"
-                }`}
+      <button
+        onClick={handleReload}
+        className="mb-6 px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        Recargar clases
+      </button>
+
+      {Object.entries(clasesPorMateria).map(([materia, clasesMateria]) => (
+        <div key={materia} className="mb-6">
+          <h2 className="text-2xl font-bold mb-2">{materia}</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            {clasesMateria.map((c, index) => (
+              <div
+                key={c.id}
+                className="bg-white p-4 rounded-xl shadow flex justify-between items-center"
               >
-                 {markingId === c.id ? "Marcando..." : "Marcar"}
-              </button>
-            </div>
-          ))
-        )}
-      </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Clase {index + 1}</h3>
+                  <p>{new Date(c.fecha).toLocaleString()}</p>
+                </div>
+                <button
+                  onClick={() => handleOpenQR(c.id)}
+                  disabled={qrLoadingId === c.id}
+                  className="px-3 py-1 rounded text-white bg-green-500 hover:bg-green-600"
+                >
+                  {qrLoadingId === c.id ? "Generando..." : "Mostrar QR"}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* Modal QR */}
+      {qrData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl shadow relative">
+            <button
+              onClick={handleCloseQR}
+              className="absolute top-2 right-2 text-gray-700 font-bold text-lg"
+            >
+              ✕
+            </button>
+            <h3 className="text-xl mb-4">Escaneá este QR para marcar asistencia</h3>
+            <QRCodeSVG value={qrData.url} size={200} />
+          </div>
+        </div>
+      )}
     </>
   );
 }
