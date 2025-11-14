@@ -52,14 +52,14 @@ export default function ClasesList() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6 pt-28">
         <div className="max-w-6xl mx-auto my-6">
           <div className="text-center mb-6">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">
               Mis Clases
             </h1>
             <p className="text-slate-500 text-lg">
-              Organizadas por materia
+              Creá una clase y accedé para generar un QR
             </p>
           </div>
 

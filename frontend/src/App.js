@@ -7,6 +7,7 @@ import ClasesPage from "./pages/ClasesPage";
 //import EncuestasPage from "./pages/EncuestasPage";
 import LoginPage from "./pages/LoginPage";
 import ClaseDetalle from "./pages/ClaseDetallePage";
+import fondoImage from "./assets/fondo.png";
 
 function AppRoutes({ user, setUser }) {
   return (
@@ -21,6 +22,8 @@ function AppRoutes({ user, setUser }) {
           window.location.href = "/"; 
         }}
       />
+      <div className="flex flex-col bg-cover bg-center" 
+            style={{ backgroundImage: `url(${fondoImage})` }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/materias" element={<MateriasPage />} />
@@ -34,6 +37,7 @@ function AppRoutes({ user, setUser }) {
           }} />}
         />
       </Routes>
+      </div>
     </>
   );
 }

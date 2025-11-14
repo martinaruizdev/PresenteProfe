@@ -45,14 +45,14 @@ export default function MateriasList() {
   }
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6">
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6 pt-28">
       <div className="max-w-6xl mx-auto my-6">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
             Mis Materias
           </h1>
           <p className="text-slate-500 text-lg">
-            Gestioná tus materias de forma simple y rápida
+            Creá y gestioná materias para cada curso
           </p>
         </div>
 

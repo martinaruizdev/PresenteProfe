@@ -81,7 +81,7 @@ export default function CrearMateria({ onCreated }) {
                   setNombre(e.target.value);
                   setErrors({ ...errors, nombre: undefined });
                 }}
-                placeholder="Ej: Matemática"
+                placeholder="Ej: Matemática - Curso"
               />
               {errors.nombre && (
                 <p className="mt-1.5 text-sm text-red-600">{errors.nombre}</p>
