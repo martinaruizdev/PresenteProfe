@@ -27,5 +27,9 @@ export default function GoogleLoginButton({ onLogin }) {
     }
   }, [onLogin]);
 
-  return <div id="google-login"></div>;
+    return (
+    <div className="w-full">
+      <div id="google-login" className="flex justify-center"></div>
+    </div>
+  );
 }
