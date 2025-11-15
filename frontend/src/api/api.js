@@ -27,3 +27,25 @@ export const marcarAsistencia = (claseId, token) =>
 export const googleLogin = async (credential) =>
   api.post("auth/google", { credential });
 
+export const updateMateria = async (id, data) => {
+  return axios.put(
+    `${process.env.REACT_APP_API_BASE}/api/materias/${id}/`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+};
+
+export const deleteMateria = async (id) => {
+  return axios.delete(
+    `${process.env.REACT_APP_API_BASE}/api/materias/${id}/`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+};
