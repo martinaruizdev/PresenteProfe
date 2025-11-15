@@ -1,7 +1,11 @@
 import GoogleLoginButton from "../components/GoogleLoginButton/GoogleLoginButton";
+import GoogleLoginTeacherButton from "../components/GoogleLoginButton/GoogleLoginTeacherButton";
 import logoBuho from "../assets/logo-buho.png";
+import { useState } from "react";
 
 export default function LoginPage({ onLogin }) {
+  const [showTeacherLogin, setShowTeacherLogin] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -27,34 +31,49 @@ export default function LoginPage({ onLogin }) {
             </p>
           </div>
 
-          {/* Google Login Button Container */}
           <div className="space-y-6">
-            <GoogleLoginButton onLogin={onLogin} />
+            {!showTeacherLogin ? (
+              <>
+                <GoogleLoginButton onLogin={onLogin} />
 
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white/80 text-slate-500">
-                  o continúa con
-                </span>
-              </div>
-            </div>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-slate-200"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white/80 text-slate-500">
+                      o continúa con
+                    </span>
+                  </div>
+                </div>
 
-            {/* Teacher Login Button */}
-            <button
-              onClick={() => {/* Agrega tu lógica aquí */}}
-              className="w-full py-4 px-6 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold rounded-2xl shadow-lg shadow-teal-400/40 transition-all duration-300 hover:shadow-xl hover:shadow-teal-400/50 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <span>Iniciar sesión como profesor</span>
-            </button>
+                <button
+                  onClick={() => setShowTeacherLogin(true)}
+                  className="w-full py-4 px-6 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold rounded-2xl shadow-lg shadow-teal-400/40 transition-all duration-300 hover:shadow-xl hover:shadow-teal-400/50 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                  <span>Iniciar sesión como profesor</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="text-center mb-4">
+                  <p className="text-slate-700 font-semibold">Ingresá como profesor</p>
+                </div>
+                
+                <GoogleLoginTeacherButton onLogin={onLogin} />
 
-            {/* Divider */}
+                <button
+                  onClick={() => setShowTeacherLogin(false)}
+                  className="w-full py-3 px-6 text-slate-600 hover:text-slate-800 font-medium transition-colors"
+                >
+                  ← Volver al inicio de sesión de alumno
+                </button>
+              </>
+            )}
+
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-slate-200"></div>
@@ -66,7 +85,6 @@ export default function LoginPage({ onLogin }) {
               </div>
             </div>
 
-            {/* Info Cards */}
             <div className="space-y-3">
               <div className="flex items-start gap-3 p-4 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl border border-teal-100">
                 <div className="w-8 h-8 bg-teal-400 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -103,7 +121,6 @@ export default function LoginPage({ onLogin }) {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-sm text-slate-500">
             ¿Primera vez aquí?{" "}

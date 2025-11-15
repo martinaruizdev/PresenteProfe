@@ -29,15 +29,6 @@ def google_login(request):
             return Response({'detail': 'Email no verificado por Google.'}, status=401)
 
         email = info['email'].lower()
-        
-        # Validación de dominio comentada para permitir cualquier email
-        # domain = email.split('@')[-1]
-        # if settings.ALLOWED_EMAIL_DOMAINS and domain not in settings.ALLOWED_EMAIL_DOMAINS:
-        #     return Response(
-        #         {'detail': f'Dominio no permitido: {domain}.'},
-        #         status=403
-        #     )
-
         first_name = info.get('given_name') or ''
         last_name = info.get('family_name') or ''
 
@@ -55,6 +46,64 @@ def google_login(request):
             user=user,
             defaults={'rol': 'ALUMNO'}
         )
+
+        # Generar tokens JWT
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+            'user': {
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'rol': perfil.rol,
+            }
+        })
+
+    except ValueError as e:
+        return Response({'detail': f'Token inválido: {str(e)}'}, status=401)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def google_login_teacher(request):
+    credential = request.data.get('credential')
+    if not credential:
+        return Response({'detail': 'Falta credential.'}, status=400)
+
+    try:
+        info = id_token.verify_oauth2_token(
+            credential,
+            grequests.Request(),
+            settings.GOOGLE_CLIENT_ID
+        )
+
+        if not info.get('email_verified'):
+            return Response({'detail': 'Email no verificado por Google.'}, status=401)
+
+        email = info['email'].lower()
+        first_name = info.get('given_name') or ''
+        last_name = info.get('family_name') or ''
+
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={
+                'username': email,
+                'first_name': first_name,
+                'last_name': last_name,
+            }
+        )
+
+        # Crear o actualizar perfil como DOCENTE
+        perfil, _ = Perfil.objects.get_or_create(
+            user=user,
+            defaults={'rol': 'DOCENTE'}
+        )
+        
+        # Si ya existe pero es ALUMNO, actualizarlo a DOCENTE
+        if perfil.rol == 'ALUMNO':
+            perfil.rol = 'DOCENTE'
+            perfil.save()
 
         # Generar tokens JWT
         refresh = RefreshToken.for_user(user)
