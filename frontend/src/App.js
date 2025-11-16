@@ -29,6 +29,7 @@ function AppRoutes({ user, setUser }) {
         <Route path="/materias" element={<MateriasPage />} />
         <Route path="/clases" element={<ClasesPage />} />
         <Route path="/clases/:claseId" element={<ClaseDetalle />} />
+        <Route path="/checkin" element={<Checkin />} />
         <Route
           path="/login"
           element={<LoginPage onLogin={(u) => {

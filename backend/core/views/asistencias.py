@@ -31,7 +31,8 @@ def marcar_asistencia(request):
     if metodo == 'QR':
         if not token:
             return Response({'detail': 'Falta token.'}, status=400)
-        if not verify_qr_token(clase_id, token):
+        # CORRECCIÓN: Invertir el orden de los parámetros
+        if not verify_qr_token(token, clase_id):
             return Response({'detail': 'Token inválido o expirado.'}, status=403)
 
     # Verificar que no haya asistencia previa
