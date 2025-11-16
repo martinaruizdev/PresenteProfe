@@ -23,24 +23,39 @@ function AppRoutes({ user, setUser }) {
           window.location.href = "/"; 
         }}
       />
-      <div className="flex flex-col bg-cover bg-center" 
-            style={{ backgroundImage: `url(${fondoImage})` }}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/materias" element={<MateriasPage />} />
-        <Route path="/clases" element={<ClasesPage />} />
-        <Route path="/clases/:claseId" element={<ClaseDetalle />} />
-        <Route path="/escanear" element={<QRScannerPage />} />
-        <Route path="/checkin" element={<Checkin />} />
-        <Route
-          path="/login"
-          element={<LoginPage onLogin={(u) => {
-            setUser(u);
-            window.location.href = "/clases";
-          }} />}
-        />
-         <Route path="/checkin" element={<Checkin />} />
-      </Routes>
+
+      <div
+        className="flex flex-col bg-cover bg-center"
+        style={{ backgroundImage: `url(${fondoImage})` }}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/materias" element={<MateriasPage />} />
+          <Route path="/clases" element={<ClasesPage />} />
+          <Route path="/clases/:claseId" element={<ClaseDetalle />} />
+          <Route path="/escanear" element={<QRScannerPage />} />
+          <Route path="/checkin" element={<Checkin />} />
+
+          <Route
+            path="/login"
+            element={
+              <LoginPage
+                onLogin={(u) => {
+                  setUser(u);
+                  localStorage.setItem("user", JSON.stringify(u));
+
+                  if (u.rol === "DOCENTE") {
+                    window.location.href = "/clases";
+                  } else if (u.rol === "ALUMNO") {
+                    window.location.href = "/escanear";
+                  } else {
+                    window.location.href = "/";
+                  }
+                }}
+              />
+            }
+          />
+        </Routes>
       </div>
     </>
   );
