@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import MateriasPage from "./pages/MateriasPage";
 import ClasesPage from "./pages/ClasesPage";
-//import EncuestasPage from "./pages/EncuestasPage";
 import LoginPage from "./pages/LoginPage";
 import ClaseDetalle from "./pages/ClaseDetallePage";
 import fondoImage from "./assets/fondo.png";
