@@ -65,14 +65,14 @@ export default function Navbar({ user, onLogout }) {
               </>
             )}
 
-            {/* {user && user.rol === "ALUMNO" && (
+            {user && user.rol === "ALUMNO" && (
               <Link
-                to="/clases"
-                className="border-2 border-teal-400 text-teal-600 hover:bg-teal-50 font-semibold py-2.5 px-6 rounded-2xl transition-all"
+                to="/escanear"
+                className="bg-teal-500 text-white py-2 px-4 rounded-xl"
               >
-                Clases
+                Escanear QR
               </Link>
-            )} */}
+            )}
 
             {!user ? (
               <Link
@@ -151,15 +151,14 @@ export default function Navbar({ user, onLogout }) {
                 </>
               )}
 
-              {/* {user && user.rol === "ALUMNO" && (
+              {user && user.rol === "ALUMNO" && (
                 <Link
-                  to="/clases"
-                  onClick={() => setIsMenuOpen(false)}
+                  to="/escanear"
                   className="block border-2 border-teal-400 text-teal-600 hover:bg-teal-50 font-semibold py-3 px-6 rounded-2xl transition-colors text-center"
                 >
-                  Clases
+                  Escanear QR
                 </Link>
-              )} */}
+              )}
 
               {!user ? (
                 <Link
@@ -193,5 +192,5 @@ export default function Navbar({ user, onLogout }) {
         )}
       </div>
     </ nav>
-      );
+  );
 }

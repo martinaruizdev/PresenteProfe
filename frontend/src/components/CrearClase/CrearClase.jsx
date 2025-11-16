@@ -9,6 +9,7 @@ export default function CrearClase({ onClaseCreada }) {
   const [errors, setErrors] = useState({});
   const [loadingMaterias, setLoadingMaterias] = useState(true);
 
+  // Cargar materias al montar
   useEffect(() => {
     const fetchMaterias = async () => {
       try {
@@ -34,6 +35,19 @@ export default function CrearClase({ onClaseCreada }) {
 
     if (!fecha) {
       newErrors.fecha = "La fecha y hora son obligatorias";
+    } else {
+      const fechaSeleccionada = new Date(fecha);
+      const ahora = new Date();
+
+      if (fechaSeleccionada < ahora) {
+        newErrors.fecha = "No se pueden seleccionar fechas pasadas";
+      }
+
+      const maxFecha = new Date();
+      maxFecha.setDate(maxFecha.getDate() + 7);
+      if (fechaSeleccionada > maxFecha) {
+        newErrors.fecha = "La fecha no puede ser mayor a 7 días desde hoy";
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -57,8 +71,13 @@ export default function CrearClase({ onClaseCreada }) {
     }
   };
 
+  const ahoraISO = new Date().toISOString().slice(0, 16);
+  const maxISO = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 16);
+
   return (
-    <div className=" flex items-center justify-center p-4">
+    <div className="flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
         <form
           onSubmit={handleSubmit}
@@ -68,9 +87,7 @@ export default function CrearClase({ onClaseCreada }) {
             <h2 className="text-3xl font-bold text-slate-800 mb-2">
               Crear nueva clase
             </h2>
-            <p className="text-slate-500">
-              Programa una clase para tu materia
-            </p>
+            <p className="text-slate-500">Programa una clase para tu materia</p>
           </div>
 
           {errors.general && (
@@ -111,15 +128,16 @@ export default function CrearClase({ onClaseCreada }) {
                     setMateria(e.target.value);
                     setErrors({ ...errors, materia: undefined });
                   }}
-                  className={`w-full px-4 py-3 border-2 rounded-2xl bg-white transition-all focus:outline-none focus:ring-2 focus:ring-teal-400/50 appearance-none cursor-pointer ${errors.materia
-                    ? "border-red-300 focus:border-red-400"
-                    : "border-slate-200 focus:border-teal-400"
-                    }`}
+                  className={`w-full px-4 py-3 border-2 rounded-2xl bg-white transition-all focus:outline-none focus:ring-2 focus:ring-teal-400/50 appearance-none cursor-pointer ${
+                    errors.materia
+                      ? "border-red-300 focus:border-red-400"
+                      : "border-slate-200 focus:border-teal-400"
+                  }`}
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "right 0.75rem center",
-                    backgroundSize: "1.5rem"
+                    backgroundSize: "1.5rem",
                   }}
                 >
                   <option value="">Seleccioná una materia</option>
@@ -135,6 +153,7 @@ export default function CrearClase({ onClaseCreada }) {
               )}
             </div>
 
+            {/* Input Fecha */}
             <div>
               <label className="block mb-2 text-sm font-medium text-slate-700">
                 Fecha y hora
@@ -142,14 +161,17 @@ export default function CrearClase({ onClaseCreada }) {
               <input
                 type="datetime-local"
                 value={fecha}
+                min={ahoraISO}
+                max={maxISO}
                 onChange={(e) => {
                   setFecha(e.target.value);
                   setErrors({ ...errors, fecha: undefined });
                 }}
-                className={`w-full px-4 py-3 border-2 rounded-2xl bg-white transition-all focus:outline-none focus:ring-2 focus:ring-teal-400/50 ${errors.fecha
-                  ? "border-red-300 focus:border-red-400"
-                  : "border-slate-200 focus:border-teal-400"
-                  }`}
+                className={`w-full px-4 py-3 border-2 rounded-2xl bg-white transition-all focus:outline-none focus:ring-2 focus:ring-teal-400/50 ${
+                  errors.fecha
+                    ? "border-red-300 focus:border-red-400"
+                    : "border-slate-200 focus:border-teal-400"
+                }`}
               />
               {errors.fecha && (
                 <p className="mt-1.5 text-sm text-red-600">{errors.fecha}</p>

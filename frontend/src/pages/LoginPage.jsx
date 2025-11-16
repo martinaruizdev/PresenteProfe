@@ -1,18 +1,14 @@
 import GoogleLoginButton from "../components/GoogleLoginButton/GoogleLoginButton";
 import GoogleLoginTeacherButton from "../components/GoogleLoginButton/GoogleLoginTeacherButton";
-import logoBuho from "../assets/logo-buho.png";
 import { useState } from "react";
 
 export default function LoginPage({ onLogin }) {
   const [showTeacherLogin, setShowTeacherLogin] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4 pt-28">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-[#f7f7f1] rounded-3xl shadow-2xl shadow-teal-400/40 mb-6">
-            <img src={logoBuho} alt="Logo" className="w-15 h-15 object-contain" />
-          </div>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
             PresenteProfe
           </h1>

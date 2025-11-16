@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../Button/Button";
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -21,9 +22,9 @@ const Header = () => {
             escaneando un código QR. Simple, rápido y confiable.
           </h2>
 
-          <Button className="bg-teal-500 hover:bg-teal-600 transition-all duration-200 text-dark font-bold py-3 px-8 rounded-2xl flex items-center justify-center">
+          <Link to="/login" className="bg-teal-500 hover:bg-teal-600 transition-all duration-200 text-dark font-bold py-3 px-8 rounded-2xl flex items-center justify-center">
             Probar Ahora <HiArrowNarrowRight className="ml-2 text-xl" />
-          </Button>
+          </Link>
         </div>
       </div>
     </header>

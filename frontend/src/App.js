@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import ClaseDetalle from "./pages/ClaseDetallePage";
 import Checkin from "./components/Checkin/Checkin";
 import fondoImage from "./assets/fondo.png";
+import QRScannerPage from "./pages/QRScannerPage";
 
 function AppRoutes({ user, setUser }) {
   return (
@@ -29,6 +30,7 @@ function AppRoutes({ user, setUser }) {
         <Route path="/materias" element={<MateriasPage />} />
         <Route path="/clases" element={<ClasesPage />} />
         <Route path="/clases/:claseId" element={<ClaseDetalle />} />
+        <Route path="/escanear" element={<QRScannerPage />} />
         <Route path="/checkin" element={<Checkin />} />
         <Route
           path="/login"
