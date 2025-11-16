@@ -6,6 +6,7 @@ import MateriasPage from "./pages/MateriasPage";
 import ClasesPage from "./pages/ClasesPage";
 import LoginPage from "./pages/LoginPage";
 import ClaseDetalle from "./pages/ClaseDetallePage";
+import Checkin from "./components/Checkin/Checkin";
 import fondoImage from "./assets/fondo.png";
 
 function AppRoutes({ user, setUser }) {
@@ -28,6 +29,7 @@ function AppRoutes({ user, setUser }) {
         <Route path="/materias" element={<MateriasPage />} />
         <Route path="/clases" element={<ClasesPage />} />
         <Route path="/clases/:claseId" element={<ClaseDetalle />} />
+        <Route path="/checkin" element={<Checkin />} />
         <Route
           path="/login"
           element={<LoginPage onLogin={(u) => {

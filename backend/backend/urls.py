@@ -18,5 +18,5 @@ urlpatterns = [
     path('api/auth/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/asistencias/marcar', marcar_asistencia),
     path('api/votar', votar),
-     path('api/auth/google-teacher/', google_login_teacher, name='google_login_teacher'),
+    path('api/auth/google-teacher/', google_login_teacher, name='google_login_teacher'),
 ]
