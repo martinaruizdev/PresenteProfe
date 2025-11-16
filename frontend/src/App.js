@@ -6,6 +6,7 @@ import MateriasPage from "./pages/MateriasPage";
 import ClasesPage from "./pages/ClasesPage";
 import LoginPage from "./pages/LoginPage";
 import ClaseDetalle from "./pages/ClaseDetallePage";
+import Checkin from "./components/Checkin/Checkin";
 import fondoImage from "./assets/fondo.png";
 
 function AppRoutes({ user, setUser }) {
@@ -35,6 +36,7 @@ function AppRoutes({ user, setUser }) {
             window.location.href = "/clases";
           }} />}
         />
+         <Route path="/checkin" element={<Checkin />} />
       </Routes>
       </div>
     </>

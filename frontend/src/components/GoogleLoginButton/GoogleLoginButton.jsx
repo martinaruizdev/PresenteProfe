@@ -10,6 +10,7 @@ export default function GoogleLoginButton({ onLogin }) {
       const result = await googleLogin(idToken);
 
       localStorage.setItem("token", result.data.access);
+      
       localStorage.setItem("refresh", result.data.refresh);
       localStorage.setItem("user", JSON.stringify(result.data.user));
 

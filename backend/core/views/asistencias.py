@@ -11,6 +11,10 @@ from api.permissions import IsAlumno
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsAlumno])
 def marcar_asistencia(request):
+    print("Usuario:", request.user)
+    print("Clase ID:", request.data.get('clase_id'))
+    print("Token:", request.data.get('token'))
+    print("Método:", request.data.get('metodo'))
     clase_id = request.data.get('clase_id')
     token = request.data.get('token')
     metodo = request.data.get('metodo', 'QR')

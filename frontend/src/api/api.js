@@ -5,6 +5,15 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access"); // JWT de Django
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+
+api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -21,9 +30,18 @@ export const generarQR = (claseId) => api.post(`clases/${claseId}/qr/`);
 export const exportarAsistencias = (claseId, formato = "csv") => window.location.href = `${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/asistencias/export/?format=${formato}`;
 export const crearClase = (data) => api.post("clases/", data);
 export const crearMateria = (data) => api.post("materias/", data);
-export const marcarAsistencia = (claseId, token) =>
-  api.post("asistencias/marcar", { clase_id: claseId, token, metodo: "QR" });
+// export const marcarAsistencia = (claseId, token) =>
+//   api.post("asistencias/marcar", { clase_id: claseId, token, metodo: "QR" });
 
+
+export const marcarAsistencia = (claseId, tokenQR) =>
+  api.post("asistencias/marcar/", {
+    clase_id: claseId,
+    token: tokenQR,
+    metodo: "QR",
+  });
+
+  
 export const googleLogin = async (credential) =>
   api.post("auth/google", { credential });
 
