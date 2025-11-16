@@ -3,6 +3,7 @@ import { getClases } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import CrearClase from "../CrearClase/CrearClase";
 import libroImg from "../../assets/libro.png";
+import buhoTriste from "../../assets/buho-triste.png";
 
 export default function ClasesList() {
 
@@ -90,12 +91,14 @@ export default function ClasesList() {
           {!clases.length && !loading && (
             <div className="text-center py-20">
               <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-12 max-w-md mx-auto shadow-lg">
-                <div className="text-6xl mb-4">📅</div>
+                              <div className="text-6xl mb-4">
+                                <img src={buhoTriste} alt="Buho" className="w-44 h-44 object-contain mx-auto block" />
+                              </div>
                 <h3 className="text-2xl font-bold text-slate-800 mb-2">
                   No hay clases programadas
                 </h3>
                 <p className="text-slate-500">
-                  Crea tu primera clase para comenzar
+                  Creá tu primera clase para empezar
                 </p>
               </div>
             </div>

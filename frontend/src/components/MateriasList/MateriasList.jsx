@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMaterias, deleteMateria } from "../../api/api";
 import CrearMateria from "../CrearMateria/CrearMateria";
 import libroImg from "../../assets/libro.png";
+import buhoTriste from "../../assets/buho-triste.png";
 import EditMateriaModal from "../EditMateriaModal.jsx/EditMateriaModal";
 import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 
@@ -32,7 +33,7 @@ export default function MateriasList() {
     setReloadFlag((prev) => !prev);
   };
 
-    const handleEdit = (materia) => {
+  const handleEdit = (materia) => {
     setEditingMateria(materia);
   };
 
@@ -50,23 +51,6 @@ export default function MateriasList() {
       alert("Error al eliminar materia 😞");
     }
   };
-
-
-  if (loading && materias.length === 0) {
-    return <p className="text-center mt-8">Cargando materias...</p>;
-  }
-
-  if (!materias.length && !loading) {
-    return (
-      <>
-        <h1 className="text-3xl text-center mt-8">Materias</h1>
-        <CrearMateria onCreated={handleReload} />
-        <p className="text-center mt-8 text-gray-500">
-          No hay materias disponibles 📚
-        </p>
-      </>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6 pt-28">
@@ -107,12 +91,14 @@ export default function MateriasList() {
         {!materias.length && !loading && (
           <div className="text-center py-20">
             <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-12 max-w-md mx-auto shadow-lg">
-              <div className="text-6xl mb-4">📚</div>
+              <div className="text-6xl mb-4">
+                <img src={buhoTriste} alt="Buho" className="w-44 h-44 object-contain mx-auto block" />
+              </div>
               <h3 className="text-2xl font-bold text-slate-800 mb-2">
                 No hay materias todavía
               </h3>
               <p className="text-slate-500">
-                Crea tu primera materia para comenzar
+                Creá tu primera materia para empezar
               </p>
             </div>
           </div>
@@ -218,7 +204,6 @@ export default function MateriasList() {
             onCancel={() => setDeletingMateria(null)}
           />
         )}
-
       </div>
     </div>
   );
