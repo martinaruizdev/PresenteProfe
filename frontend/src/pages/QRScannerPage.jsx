@@ -117,7 +117,6 @@ export default function QRScannerPage() {
           </div>
         )}
 
-        {/* Instrucciones de uso */}
         <div className="mt-8 grid md:grid-cols-3 gap-4">
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">

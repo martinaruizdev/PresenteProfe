@@ -11,50 +11,9 @@
   font-family: "Instrument Sans", sans-serif;
 }
 
-.scanner-corner {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border: 4px solid #00ff6a;
-}
-
-.scanner-corner.top-left {
-  top: 0;
-  left: 0;
-  border-right: none;
-  border-bottom: none;
-}
-.scanner-corner.top-right {
-  top: 0;
-  right: 0;
-  border-left: none;
-  border-bottom: none;
-}
-.scanner-corner.bottom-left {
-  bottom: 0;
-  left: 0;
-  border-right: none;
-  border-top: none;
-}
-.scanner-corner.bottom-right {
-  bottom: 0;
-  right: 0;
-  border-left: none;
-  border-top: none;
-}
-
-.scanner-laser {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 3px;
-  background: red;
-  animation: laser-move 2s infinite ease-in-out;
-  opacity: 0.8;
-}
-
-@keyframes laser-move {
-  0% { top: 10px; }
-  50% { top: calc(100% - 10px); }
-  100% { top: 10px; }
+#qr-reader video {
+  transform: rotate(90deg);
+  width: 100vh !important;
+  height: 100vw !important;
+  object-fit: cover;
 }
