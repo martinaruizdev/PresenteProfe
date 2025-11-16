@@ -66,13 +66,13 @@ export default function ClaseDetallePage() {
 
   const formatearFecha = (fecha) => {
     const date = new Date(fecha);
-    const opciones = { 
-      weekday: 'long', 
-      day: 'numeric', 
-      month: 'long', 
+    const opciones = {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
       year: 'numeric',
-      hour: '2-digit', 
-      minute: '2-digit' 
+      hour: '2-digit',
+      minute: '2-digit'
     };
     return date.toLocaleDateString('es-AR', opciones);
   };
@@ -80,24 +80,24 @@ export default function ClaseDetallePage() {
   const handleDescargarQR = () => {
     const svg = document.querySelector('#qr-code');
     if (!svg) return;
-    
+
     const svgData = new XMLSerializer().serializeToString(svg);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const img = new Image();
-    
+
     img.onload = () => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL('image/png');
-      
+
       const downloadLink = document.createElement('a');
       downloadLink.download = `QR-Clase-${claseId}.png`;
       downloadLink.href = pngFile;
       downloadLink.click();
     };
-    
+
     img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
   };
 
@@ -114,11 +114,67 @@ export default function ClaseDetallePage() {
     }
   };
 
+  const handleDescargarExcel = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `${process.env.REACT_APP_API_BASE}/api/clases/${claseId}/export-asistencias/`;
+      
+      console.log('=== DEBUG DESCARGA EXCEL ===');
+      console.log('URL:', url);
+      console.log('Token:', token ? 'Presente' : 'Ausente');
+      console.log('ClaseId:', claseId);
+
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      console.log('Status:', res.status);
+      console.log('Headers:', [...res.headers.entries()]);
+
+      if (!res.ok) {
+        const contentType = res.headers.get('content-type');
+        let errorText;
+
+        if (contentType && contentType.includes('application/json')) {
+          const errorJson = await res.json();
+          console.error('Error JSON:', errorJson);
+          errorText = errorJson.detail || JSON.stringify(errorJson);
+        } else {
+          errorText = await res.text();
+          console.error('Error Text:', errorText);
+        }
+
+        throw new Error(`Error ${res.status}: ${errorText}`);
+      }
+
+      const blob = await res.blob();
+      console.log('Blob size:', blob.size, 'bytes');
+      console.log('Blob type:', blob.type);
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `Asistencias-Clase-${claseId}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(downloadUrl);
+      document.body.removeChild(a);
+
+      console.log('✅ Descarga completada');
+    } catch (err) {
+      console.error('❌ Error completo:', err);
+      alert('Error al descargar el archivo Excel: ' + err.message);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 p-6 pt-28">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <button 
+          <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-slate-600 hover:text-slate-800 mb-4 transition-colors"
           >
@@ -143,7 +199,7 @@ export default function ClaseDetallePage() {
               <div className="flex items-start justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-teal-400 rounded-2xl flex items-center justify-center ">
-                    <img src={libroImg} alt="Icono libro" className="w-7 h-7 object-contain"/>
+                    <img src={libroImg} alt="Icono libro" className="w-7 h-7 object-contain" />
                   </div>
                   <div>
                     <h1 className="text-3xl md:text-4xl font-bold text-slate-800">
@@ -185,10 +241,10 @@ export default function ClaseDetallePage() {
               onClick={() => setShowQR(!showQR)}
               className="text-slate-400 hover:text-slate-600 transition-colors"
             >
-              <svg 
-                className={`w-6 h-6 transition-transform ${showQR ? 'rotate-180' : ''}`} 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                className={`w-6 h-6 transition-transform ${showQR ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -222,9 +278,9 @@ export default function ClaseDetallePage() {
                       <p className="text-slate-600 font-medium">Generando QR...</p>
                     </div>
                   ) : qrUrl ? (
-                    <QRCodeSVG 
+                    <QRCodeSVG
                       id="qr-code"
-                      value={qrUrl} 
+                      value={qrUrl}
                       size={320}
                       level="H"
                       includeMargin={true}
@@ -287,6 +343,17 @@ export default function ClaseDetallePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                   Copiar URL
+                </button>
+
+                <button
+                  onClick={handleDescargarExcel}
+                  disabled={loadingClase}
+                  className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Descargar Excel de Asistencias
                 </button>
               </div>
             </div>
