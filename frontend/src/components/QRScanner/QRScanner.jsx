@@ -24,12 +24,19 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
     if (isRunningRef.current || cameras.length === 0) return;
 
     try {
+      const backCamera = cameras.find(camera =>
+        camera.label.toLowerCase().includes('back') ||
+        camera.label.toLowerCase().includes('rear') ||
+        camera.label.toLowerCase().includes('environment')
+      ) || cameras[cameras.length - 1];
+
       await scannerRef.current.start(
-        cameras[0].id,
+        backCamera.id,
         {
           fps: 10,
-          qrbox: { width: 300, height: 300 },
-          aspectRatio: 1.0 
+          qrbox: 250,
+          aspectRatio: 1.0,
+          facingMode: "environment"
         },
         (decodedText) => {
           onScanSuccess(decodedText);
@@ -82,11 +89,10 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
       <div className="relative">
         <div
           className={`relative w-80 h-80 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${started
-              ? "ring-4 ring-teal-400 ring-offset-4"
-              : "ring-2 ring-slate-300 ring-offset-4"
+            ? "ring-4 ring-teal-400 ring-offset-4"
+            : "ring-2 ring-slate-300 ring-offset-4"
             }`}
         >
-
           <div id="qr-video" className="w-full h-full bg-slate-900"></div>
 
           {!started && cameras.length > 0 && (
