@@ -7,6 +7,8 @@ import tres from "../assets/tres.png";
 export default function QRScannerPage() {
   const [resultado, setResultado] = useState(null);
   const [procesando, setProcesando] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSuccess = useCallback((texto) => {
     setResultado(texto);
@@ -24,11 +26,13 @@ export default function QRScannerPage() {
         }, 800);
       } else {
         setProcesando(false);
-        alert("QR inválido: faltan parámetros necesarios");
+        setErrorMessage("QR inválido: faltan parámetros necesarios");
+        setShowErrorModal(true);
       }
     } catch {
       setProcesando(false);
-      alert("QR inválido: no es una URL válida");
+      setErrorMessage("QR inválido: no es una URL válida");
+      setShowErrorModal(true);
     }
   }, []);
 
@@ -37,145 +41,220 @@ export default function QRScannerPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 pt-28 px-6 pb-12">
-      <div className="max-w-4xl mx-auto">
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 pt-28 px-6 pb-12">
+        <div className="max-w-4xl mx-auto">
 
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-400 rounded-2xl mb-4">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-            </svg>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-400 rounded-2xl mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+              </svg>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
+              Escanear código QR
+            </h1>
+            <p className="text-slate-500 text-lg">
+              Apunta tu cámara al código QR de asistencia
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
-            Escanear código QR
-          </h1>
-          <p className="text-slate-500 text-lg">
-            Apunta tu cámara al código QR de asistencia
-          </p>
-        </div>
 
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/50 p-8">
-          <QRScanner
-            onScanSuccess={handleSuccess}
-            onScanError={handleError}
-          />
-        </div>
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/50 p-8">
+            <QRScanner
+              onScanSuccess={handleSuccess}
+              onScanError={handleError}
+            />
+          </div>
 
-        {resultado && (
-          <div className="mt-8 animate-fadeIn">
-            <div className={`rounded-3xl p-6 shadow-lg border ${
-              procesando 
-                ? 'bg-teal-50 border-teal-200' 
-                : 'bg-white/80 border-white/50'
-            }`}>
-              <div className="flex items-center gap-4">
-                {procesando ? (
-                  <>
-                    <div className="flex-shrink-0">
-                      <svg className="animate-spin h-12 w-12 text-teal-400" viewBox="0 0 24 24">
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg text-teal-800 mb-1">
-                        Procesando código QR...
-                      </h3>
-                      <p className="text-sm text-teal-600">
-                        Redirigiendo a la página de confirmación
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-lg text-slate-800 mb-1">
-                        Código detectado
-                      </h3>
-                      <p className="text-sm text-slate-600 break-all">
-                        {resultado}
-                      </p>
-                    </div>
-                  </>
-                )}
+          {resultado && (
+            <div className="mt-8 animate-fadeIn">
+              <div className={`rounded-3xl p-6 shadow-lg border ${
+                procesando 
+                  ? 'bg-teal-50 border-teal-200' 
+                  : 'bg-white/80 border-white/50'
+              }`}>
+                <div className="flex items-center gap-4">
+                  {procesando ? (
+                    <>
+                      <div className="flex-shrink-0">
+                        <svg className="animate-spin h-12 w-12 text-teal-400" viewBox="0 0 24 24">
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                            fill="none"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg text-teal-800 mb-1">
+                          Procesando código QR...
+                        </h3>
+                        <p className="text-sm text-teal-600">
+                          Redirigiendo a la página de confirmación
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-lg text-slate-800 mb-1">
+                          Código detectado
+                        </h3>
+                        <p className="text-sm text-slate-600 break-all">
+                          {resultado}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="mt-8 grid md:grid-cols-3 gap-4">
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <img src={uno} alt="Uno" className="w-7 h-7 object-contain" />
+          <div className="mt-8 grid md:grid-cols-3 gap-4">
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <img src={uno} alt="Uno" className="w-7 h-7 object-contain" />
+              </div>
+              <h3 className="font-semibold text-slate-800 mb-2">
+                Permite el acceso
+              </h3>
+              <p className="text-sm text-slate-600">
+                Autoriza el uso de la cámara cuando te lo solicite el navegador
+              </p>
             </div>
-            <h3 className="font-semibold text-slate-800 mb-2">
-              Permite el acceso
-            </h3>
-            <p className="text-sm text-slate-600">
-              Autoriza el uso de la cámara cuando te lo solicite el navegador
-            </p>
+
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <img src={dos} alt="Dos" className="w-7 h-7 object-contain" />
+              </div>
+              <h3 className="font-semibold text-slate-800 mb-2">
+                Escanea el código
+              </h3>
+              <p className="text-sm text-slate-600">
+                Centra el código QR dentro del marco hasta que sea detectado
+              </p>
+            </div>
+
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <img src={tres} alt="Tres" className="w-7 h-7 object-contain" />
+              </div>
+              <h3 className="font-semibold text-slate-800 mb-2">
+                Confirma tu asistencia
+              </h3>
+              <p className="text-sm text-slate-600">
+                Serás redirigido automáticamente para confirmar tu presencia
+              </p>
+            </div>
           </div>
 
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <img src={dos} alt="Dos" className="w-7 h-7 object-contain" />
-            </div>
-            <h3 className="font-semibold text-slate-800 mb-2">
-              Escanea el código
-            </h3>
-            <p className="text-sm text-slate-600">
-              Centra el código QR dentro del marco hasta que sea detectado
-            </p>
-          </div>
-
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <img src={tres} alt="Tres" className="w-7 h-7 object-contain" />
-            </div>
-            <h3 className="font-semibold text-slate-800 mb-2">
-              Confirma tu asistencia
-            </h3>
-            <p className="text-sm text-slate-600">
-              Serás redirigido automáticamente para confirmar tu presencia
-            </p>
-          </div>
         </div>
 
+        <style jsx>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+          }
+        `}</style>
       </div>
 
+      {/* Modal de error */}
+      {showErrorModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeInModal">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 animate-scaleIn">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg
+                  className="w-10 h-10 text-amber-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
+                </svg>
+              </div>
+              
+              <h3 className="text-2xl font-bold text-slate-800 mb-3">
+                Código QR inválido
+              </h3>
+              
+              <p className="text-slate-500 mb-8">
+                {errorMessage}
+              </p>
+              
+              <button
+                onClick={() => {
+                  setShowErrorModal(false);
+                  setResultado(null);
+                }}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:-translate-y-0.5"
+              >
+                Intentar nuevamente
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
-        @keyframes fadeIn {
+        @keyframes fadeInModal {
           from {
             opacity: 0;
-            transform: translateY(10px);
           }
           to {
             opacity: 1;
-            transform: translateY(0);
           }
         }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out;
+
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .animate-fadeInModal {
+          animation: fadeInModal 0.2s ease-out;
+        }
+
+        .animate-scaleIn {
+          animation: scaleIn 0.3s ease-out;
         }
       `}</style>
-    </div>
+    </>
   );
 }

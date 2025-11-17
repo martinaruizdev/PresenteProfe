@@ -24,19 +24,20 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
     if (isRunningRef.current || cameras.length === 0) return;
 
     try {
-      const backCamera = cameras.find(camera =>
-        camera.label.toLowerCase().includes('back') ||
+      const backCamera = cameras.find(camera => 
+        camera.label.toLowerCase().includes('back') || 
         camera.label.toLowerCase().includes('rear') ||
         camera.label.toLowerCase().includes('environment')
-      ) || cameras[cameras.length - 1];
+      ) || cameras[cameras.length - 1]; 
 
       await scannerRef.current.start(
         backCamera.id,
-        {
-          fps: 10,
-          qrbox: 250,
+        { 
+          fps: 10, 
+          qrbox: { width: 250, height: 250 },
           aspectRatio: 1.0,
-          facingMode: "environment"
+          facingMode: "environment", 
+          disableFlip: false,
         },
         (decodedText) => {
           onScanSuccess(decodedText);
@@ -57,7 +58,7 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
 
     try {
       await scannerRef.current.stop();
-    } catch { }
+    } catch {}
 
     isRunningRef.current = false;
     setStarted(false);
@@ -88,10 +89,11 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
 
       <div className="relative">
         <div
-          className={`relative w-80 h-80 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${started
-            ? "ring-4 ring-teal-400 ring-offset-4"
-            : "ring-2 ring-slate-300 ring-offset-4"
-            }`}
+          className={`relative w-80 h-80 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 ${
+            started 
+              ? "ring-4 ring-teal-400 ring-offset-4" 
+              : "ring-2 ring-slate-300 ring-offset-4"
+          }`}
         >
           <div id="qr-video" className="w-full h-full bg-slate-900"></div>
 
@@ -119,7 +121,7 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
               <div className="absolute bottom-8 right-8 w-12 h-12 border-b-4 border-r-4 border-teal-400 rounded-br-2xl animate-pulse" />
 
               <div className="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-teal-400 to-transparent animate-scan" />
-
+              
               <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-teal-400 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
                 <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                 Escaneando...
@@ -182,6 +184,11 @@ export default function QRScanner({ onScanSuccess, onScanError }) {
         
         .animate-scan {
           animation: scan 2s ease-in-out infinite;
+        }
+
+        /* Ocultar el cuadrado blanco de html5-qrcode */
+        #qr-video :global(#qr-shaded-region) {
+          border: none !important;
         }
       `}</style>
     </div>

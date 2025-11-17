@@ -17,3 +17,11 @@
   height: 100vw !important;
   object-fit: cover;
 }
+
+#qr-video div[style*="position: absolute"] {
+  border: none !important;
+}
+
+#qr-shaded-region {
+  border: none !important;
+}

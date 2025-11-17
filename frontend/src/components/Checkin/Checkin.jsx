@@ -47,7 +47,18 @@ export default function Checkin() {
         });
       }, 1000);
 
-      return () => clearInterval(interval);
+      const timeout = setTimeout(() => {
+        window.close();
+
+        if (!window.closed) {
+          window.history.back();
+        }
+      }, 10000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
     }
   }, [status]);
 
