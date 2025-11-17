@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
 import QRScanner from "../components/QRScanner/QRScanner";
+import uno from "../assets/uno.png";
+import dos from "../assets/dos.png";
+import tres from "../assets/tres.png";
 
 export default function QRScannerPage() {
   const [resultado, setResultado] = useState(null);
@@ -120,7 +123,7 @@ export default function QRScannerPage() {
         <div className="mt-8 grid md:grid-cols-3 gap-4">
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <span className="text-2xl">1️⃣</span>
+              <img src={uno} alt="Uno" className="w-7 h-7 object-contain" />
             </div>
             <h3 className="font-semibold text-slate-800 mb-2">
               Permite el acceso
@@ -131,8 +134,8 @@ export default function QRScannerPage() {
           </div>
 
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
-            <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <span className="text-2xl">2️⃣</span>
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <img src={dos} alt="Dos" className="w-7 h-7 object-contain" />
             </div>
             <h3 className="font-semibold text-slate-800 mb-2">
               Escanea el código
@@ -143,8 +146,8 @@ export default function QRScannerPage() {
           </div>
 
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <span className="text-2xl">3️⃣</span>
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <img src={tres} alt="Tres" className="w-7 h-7 object-contain" />
             </div>
             <h3 className="font-semibold text-slate-800 mb-2">
               Confirma tu asistencia
