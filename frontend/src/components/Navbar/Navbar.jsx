@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo-img.png";
 
 export default function Navbar({ user, onLogout }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,9 +42,11 @@ export default function Navbar({ user, onLogout }) {
         <div className="flex justify-between items-center bg-white backdrop-blur-sm px-6 md:px-8 py-4 shadow-xl border border-white/50">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <span className="font-bold text-xl text-slate-800 hidden sm:block">
-              PresenteProfe
-            </span>
+            <img
+              src={logo}
+              alt="PresenteProfe"
+              className="h-8 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -68,7 +71,7 @@ export default function Navbar({ user, onLogout }) {
             {user && user.rol === "ALUMNO" && (
               <Link
                 to="/escanear"
-                className="bg-teal-500 text-white py-2 px-4 rounded-xl"
+                className="block border-2 border-teal-400 text-teal-600 hover:bg-teal-50 font-semibold py-3 px-6 rounded-2xl transition-colors text-center"
               >
                 Escanear QR
               </Link>

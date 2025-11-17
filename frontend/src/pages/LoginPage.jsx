@@ -9,8 +9,8 @@ export default function LoginPage({ onLogin }) {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4 pt-28">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-3">
-            PresenteProfe
+          <h1 className="text-4xl md:text-5xl font-bold text-[#1B2E56] mb-3">
+            Presente<span className="text-teal-400">Profe</span>
           </h1>
           <p className="text-lg text-slate-600">
             Gestión de asistencias con QR
@@ -45,7 +45,7 @@ export default function LoginPage({ onLogin }) {
 
                 <button
                   onClick={() => setShowTeacherLogin(true)}
-                  className="w-full py-4 px-6 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold rounded-2xl shadow-lg shadow-teal-400/40 transition-all duration-300 hover:shadow-xl hover:shadow-teal-400/50 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
+                  className="w-full py-4 px-6 bg-teal-400 hover:bg-teal-500 text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -119,7 +119,7 @@ export default function LoginPage({ onLogin }) {
 
         <div className="text-center mt-8">
           <p className="text-sm text-slate-500">
-            ¿Primera vez aquí?{" "}
+            ¿Primera vez acá?{" "}
             <span className="text-teal-600 font-semibold">
               Iniciá sesión con Google para crear tu cuenta
             </span>
