@@ -16,13 +16,13 @@ export default function Checkin() {
         setStatus("success");
         setTimeout(() => {
           window.close();
-        }, 5000);
+        }, 10000);
       } catch (err) {
         console.error(err);
         setStatus("error");
         setTimeout(() => {
           window.close();
-        }, 5000);
+        }, 10000);
       }
     };
     if (clase_id && token) {
@@ -31,7 +31,7 @@ export default function Checkin() {
       setStatus("invalid");
       setTimeout(() => {
         window.close();
-      }, 5000);
+      }, 10000);
     }
   }, [clase_id, token]);
 
