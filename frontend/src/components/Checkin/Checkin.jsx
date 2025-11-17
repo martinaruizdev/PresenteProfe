@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 export default function Checkin() {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState("loading");
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(10);
   const clase_id = searchParams.get("clase_id");
   const token = searchParams.get("token");
 
