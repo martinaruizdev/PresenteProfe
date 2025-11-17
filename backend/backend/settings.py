@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -162,6 +163,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Donde collectstatic guardará los archivos para producción
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Opcional: si tenés una carpeta de static en el proyecto (por ejemplo frontend build o carpeta global)
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # ajustar si usás otra carpeta local para assets
+]
+
+# Usar el almacenamiento comprimido de WhiteNoise para servir archivos estáticos eficientemente
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
