@@ -10,3 +10,10 @@
   box-sizing: border-box;
   font-family: "Instrument Sans", sans-serif;
 }
+
+#qr-reader video {
+  transform: rotate(90deg);
+  width: 100vh !important;
+  height: 100vw !important;
+  object-fit: cover;
+}

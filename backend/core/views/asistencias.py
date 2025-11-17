@@ -11,6 +11,10 @@ from api.permissions import IsAlumno
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsAlumno])
 def marcar_asistencia(request):
+    print("Usuario:", request.user)
+    print("Clase ID:", request.data.get('clase_id'))
+    print("Token:", request.data.get('token'))
+    print("Método:", request.data.get('metodo'))
     clase_id = request.data.get('clase_id')
     token = request.data.get('token')
     metodo = request.data.get('metodo', 'QR')
@@ -27,7 +31,8 @@ def marcar_asistencia(request):
     if metodo == 'QR':
         if not token:
             return Response({'detail': 'Falta token.'}, status=400)
-        if not verify_qr_token(clase_id, token):
+        # CORRECCIÓN: Invertir el orden de los parámetros
+        if not verify_qr_token(token, clase_id):
             return Response({'detail': 'Token inválido o expirado.'}, status=403)
 
     # Verificar que no haya asistencia previa

@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
 # Importamos desde core.views (re-exporta todo)
-from core.views import MateriaViewSet, ClaseViewSet, EncuestaViewSet, marcar_asistencia, votar, google_login
+from core.views import MateriaViewSet, ClaseViewSet, EncuestaViewSet, marcar_asistencia, votar, google_login, google_login_teacher
 
 router = DefaultRouter()
 router.register(r'materias', MateriaViewSet, basename='materias')
@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/auth/google', google_login, name='google_login'),
     path('api/auth/refresh', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/asistencias/marcar', marcar_asistencia),
+    path('api/asistencias/marcar/', marcar_asistencia),
     path('api/votar', votar),
+    path('api/auth/google-teacher/', google_login_teacher, name='google_login_teacher'),
 ]

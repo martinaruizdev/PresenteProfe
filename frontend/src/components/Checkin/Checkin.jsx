@@ -22,8 +22,6 @@ export default function Checkin() {
   }, [clase_id, token]);
 
   return (
-    <div className="p-8 text-center">
       <h1>{status}</h1>
-    </div>
   );
 }

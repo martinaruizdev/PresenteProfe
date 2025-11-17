@@ -4,9 +4,11 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 import MateriasPage from "./pages/MateriasPage";
 import ClasesPage from "./pages/ClasesPage";
-//import EncuestasPage from "./pages/EncuestasPage";
 import LoginPage from "./pages/LoginPage";
 import ClaseDetalle from "./pages/ClaseDetallePage";
+import Checkin from "./components/Checkin/Checkin";
+import fondoImage from "./assets/fondo.png";
+import QRScannerPage from "./pages/QRScannerPage";
 
 function AppRoutes({ user, setUser }) {
   return (
@@ -21,19 +23,40 @@ function AppRoutes({ user, setUser }) {
           window.location.href = "/"; 
         }}
       />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/materias" element={<MateriasPage />} />
-        <Route path="/clases" element={<ClasesPage />} />
-        <Route path="/clases/:claseId" element={<ClaseDetalle />} />
-        <Route
-          path="/login"
-          element={<LoginPage onLogin={(u) => {
-            setUser(u);
-            window.location.href = "/clases";
-          }} />}
-        />
-      </Routes>
+
+      <div
+        className="flex flex-col bg-cover bg-center"
+        style={{ backgroundImage: `url(${fondoImage})` }}
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/materias" element={<MateriasPage />} />
+          <Route path="/clases" element={<ClasesPage />} />
+          <Route path="/clases/:claseId" element={<ClaseDetalle />} />
+          <Route path="/escanear" element={<QRScannerPage />} />
+          <Route path="/checkin" element={<Checkin />} />
+
+          <Route
+            path="/login"
+            element={
+              <LoginPage
+                onLogin={(u) => {
+                  setUser(u);
+                  localStorage.setItem("user", JSON.stringify(u));
+
+                  if (u.rol === "DOCENTE") {
+                    window.location.href = "/clases";
+                  } else if (u.rol === "ALUMNO") {
+                    window.location.href = "/escanear";
+                  } else {
+                    window.location.href = "/";
+                  }
+                }}
+              />
+            }
+          />
+        </Routes>
+      </div>
     </>
   );
 }

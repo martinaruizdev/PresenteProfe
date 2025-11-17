@@ -4,7 +4,7 @@ import { crearMateria } from "../../api/api";
 export default function CrearMateria({ onCreated }) {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [cantidadAlumnos, setCantidadAlumnos] = useState(30); // valor por defecto
+  const [cantidadAlumnos, setCantidadAlumnos] = useState(30); 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -44,11 +44,11 @@ export default function CrearMateria({ onCreated }) {
   };
 
   return (
-    <div className=" bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 flex items-center justify-center p-4">
+    <div className="flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
         <form
           onSubmit={handleSubmit}
-          className="relative bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl"
+          className="relative bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl mb-16"
         >
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold text-slate-800 mb-2">
@@ -81,7 +81,7 @@ export default function CrearMateria({ onCreated }) {
                   setNombre(e.target.value);
                   setErrors({ ...errors, nombre: undefined });
                 }}
-                placeholder="Ej: Matemática"
+                placeholder="Ej: Matemática - Curso"
               />
               {errors.nombre && (
                 <p className="mt-1.5 text-sm text-red-600">{errors.nombre}</p>
@@ -154,19 +154,6 @@ export default function CrearMateria({ onCreated }) {
             ) : (
               <span className="flex items-center justify-center gap-2">
                 Crear materia
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
               </span>
             )}
           </button>
